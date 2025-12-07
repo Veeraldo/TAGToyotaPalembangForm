@@ -617,7 +617,7 @@
     <script type="module">
         // Import Firebase
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase config
         const firebaseConfig = {
@@ -718,7 +718,7 @@
             });
         });
 
-        // Form submit dengan UPDATE logic
+        // Form submit dengan UPDATE logic yang benar
         document.getElementById('customerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -756,28 +756,28 @@
             loader.style.display = 'block';
 
             try {
-                console.log('🔍 Mencari document dengan customer_id:', customerId);
+                console.log('🔍 Mengupdate document dengan ID:', customerId);
 
-                // Cari document berdasarkan customer_id (dari URL parameter)
-                const customersRef = collection(db, 'customers');
-                const q = query(customersRef, where('__name__', '==', customerId));
-                const querySnapshot = await getDocs(q);
+                // Langsung referensikan document menggunakan customerId
+                const docRef = doc(db, 'customers', customerId);
 
-                if (querySnapshot.empty) {
+                // Cek dulu apakah document exists
+                const docSnap = await getDoc(docRef);
+                
+                if (!docSnap.exists()) {
                     throw new Error('Customer tidak ditemukan. ID: ' + customerId);
                 }
 
-                // Update document yang ditemukan
-                const customerDoc = querySnapshot.docs[0];
-                const docRef = doc(db, 'customers', customerDoc.id);
+                console.log('📄 Document ditemukan, melakukan update...');
 
+                // Update hanya field Hobi dan Makanan_Favorit
                 await updateDoc(docRef, {
-                    Hobby: hobby,
+                    Hobi: hobby,
                     Makanan_Favorit: food,
                     updated_at: new Date().toISOString()
                 });
 
-                console.log('✅ Data updated successfully untuk document ID:', customerDoc.id);
+                console.log('✅ Data berhasil diupdate untuk document ID:', customerId);
 
                 submitBtn.disabled = false;
                 btnText.style.display = 'inline';
