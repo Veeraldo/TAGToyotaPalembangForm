@@ -528,7 +528,6 @@
                     <input type="text" 
                            id="customerId" 
                            name="customerId" 
-                           value="<?= customerId ?>"
                            readonly 
                            required>
                 </div>
@@ -541,7 +540,6 @@
                     <input type="text" 
                            id="customerName" 
                            name="customerName" 
-                           value="<?= customerName ?>"
                            readonly 
                            required>
                 </div>
@@ -616,7 +614,60 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEz8Sc2Be--zIpTwby1I2YmotPpawyMH4",
+            authDomain: "tagtoyota-aece3.firebaseapp.com",
+            databaseURL: "https://tagtoyota-aece3-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "tagtoyota-aece3",
+            storageBucket: "tagtoyota-aece3.firebasestorage.app",
+            messagingSenderId: "1074131544847",
+            appId: "1:1074131544847:web:5bd448e3522153edce2c7a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const value = urlParams.get(name);
+            console.log(`Parameter ${name}:`, value);
+            return value;
+        }
+
+        // Auto-fill form on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Current URL:', window.location.href);
+            
+            const customerId = getUrlParameter('customer_id');
+            const customerName = getUrlParameter('customer_name');
+
+            if (customerId) {
+                document.getElementById('customerId').value = decodeURIComponent(customerId);
+                console.log('✅ Customer ID filled:', customerId);
+            } else {
+                console.warn('⚠️ No customer_id in URL');
+            }
+
+            if (customerName) {
+                document.getElementById('customerName').value = decodeURIComponent(customerName);
+                console.log('✅ Customer Name filled:', customerName);
+            } else {
+                console.warn('⚠️ No customer_name in URL');
+            }
+
+            if (!customerId || !customerName) {
+                document.getElementById('errorMessage').textContent = '⚠️ Link tidak valid. Pastikan membuka dari aplikasi.';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+
         // Floating particles
         function createParticle() {
             const particle = document.createElement('div');
@@ -667,8 +718,8 @@
             });
         });
 
-        // Form submit dengan Google Apps Script
-        document.getElementById('customerForm').addEventListener('submit', function(e) {
+        // Form submit dengan UPDATE logic
+        document.getElementById('customerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('submitBtn');
@@ -704,53 +755,56 @@
             btnText.style.display = 'none';
             loader.style.display = 'block';
 
-            const formData = {
-                customer_id: customerId,
-                customer_name: customerName,
-                hobby: hobby,
-                makanan_favorit: food
-            };
+            try {
+                console.log('🔍 Mencari document dengan customer_id:', customerId);
 
-            console.log('📤 Sending data:', formData);
+                // Cari document berdasarkan customer_id (dari URL parameter)
+                const customersRef = collection(db, 'customers');
+                const q = query(customersRef, where('__name__', '==', customerId));
+                const querySnapshot = await getDocs(q);
 
-            // Call Google Apps Script function
-            google.script.run
-                .withSuccessHandler(function(response) {
-                    console.log('✅ Success:', response);
-                    
-                    submitBtn.disabled = false;
-                    btnText.style.display = 'inline';
-                    loader.style.display = 'none';
-                    
-                    if (response.success) {
-                        successMsg.textContent = '✅ ' + response.message;
-                        successMsg.style.display = 'block';
-                        
-                        // Reset form
-                        document.querySelectorAll('input[name="hobby"]').forEach(r => r.checked = false);
-                        document.querySelectorAll('input[name="food"]').forEach(r => r.checked = false);
-                        document.getElementById('hobbyOtherInput').classList.remove('show');
-                        document.getElementById('foodOtherInput').classList.remove('show');
-                        document.getElementById('hobbyOtherText').value = '';
-                        document.getElementById('foodOtherText').value = '';
-                    } else {
-                        errorMsg.textContent = '❌ ' + response.message;
-                        errorMsg.style.display = 'block';
-                    }
-                    
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                })
-                .withFailureHandler(function(error) {
-                    console.error('❌ Error:', error);
-                    
-                    submitBtn.disabled = false;
-                    btnText.style.display = 'inline';
-                    loader.style.display = 'none';
-                    errorMsg.textContent = 'Terjadi kesalahan: ' + error.message;
-                    errorMsg.style.display = 'block';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                })
-                .updateToFirestore(formData);
+                if (querySnapshot.empty) {
+                    throw new Error('Customer tidak ditemukan. ID: ' + customerId);
+                }
+
+                // Update document yang ditemukan
+                const customerDoc = querySnapshot.docs[0];
+                const docRef = doc(db, 'customers', customerDoc.id);
+
+                await updateDoc(docRef, {
+                    Hobby: hobby,
+                    Makanan_Favorit: food,
+                    updated_at: new Date().toISOString()
+                });
+
+                console.log('✅ Data updated successfully untuk document ID:', customerDoc.id);
+
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                loader.style.display = 'none';
+                successMsg.textContent = '✅ Data berhasil diperbarui! Terima kasih.';
+                successMsg.style.display = 'block';
+                
+                // Reset form
+                document.querySelectorAll('input[name="hobby"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="food"]').forEach(r => r.checked = false);
+                document.getElementById('hobbyOtherInput').classList.remove('show');
+                document.getElementById('foodOtherInput').classList.remove('show');
+                document.getElementById('hobbyOtherText').value = '';
+                document.getElementById('foodOtherText').value = '';
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                loader.style.display = 'none';
+                errorMsg.textContent = 'Terjadi kesalahan: ' + error.message;
+                errorMsg.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     </script>
 </body>
