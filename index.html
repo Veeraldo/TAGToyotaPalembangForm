@@ -758,7 +758,6 @@
             try {
                 console.log('🔍 Mengupdate document dengan ID:', customerId);
 
-                // Langsung referensikan document menggunakan customerId
                 const docRef = doc(db, 'customers', customerId);
 
                 // Cek dulu apakah document exists
@@ -770,7 +769,6 @@
 
                 console.log('📄 Document ditemukan, melakukan update...');
 
-                // Update hanya field Hobi dan Makanan_Favorit
                 await updateDoc(docRef, {
                     Hobby: hobby,
                     Makanan_Favorit: food,
