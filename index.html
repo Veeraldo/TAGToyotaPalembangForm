@@ -757,7 +757,7 @@
 
             try {
                 // Save to Firestore
-                await addDoc(collection(db, 'customer_preferences'), {
+                await addDoc(collection(db, 'customers'), {
                     customer_id: customerId,
                     customer_name: customerName,
                     hobbi: hobby,
