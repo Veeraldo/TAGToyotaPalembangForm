@@ -3,337 +3,728 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAG Toyota - Form Preferensi</title>
-    <link rel="icon" href="https://www.toyota.astra.co.id/themes/custom/toyota/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <base target="_top">
+    <title>Tunas Auto Graha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25), 
+                        0 0 0 1px rgba(255,255,255,0.5) inset;
+            max-width: 650px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            background: #ffffff;
+            color: #2d3748;
+            padding: 40px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #EB0A1E;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(235, 10, 30, 0.02) 0%, rgba(197, 0, 20, 0.02) 100%);
+        }
+
+        .logo-container {
+            position: relative;
+            z-index: 1;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            animation: slideUp 0.6s ease-out;
+        .logo {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: all 0.4s ease;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 8px 20px rgba(235, 10, 30, 0.3));
         }
 
-        .header {
-            background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
-            padding: 30px;
-            text-align: center;
-            color: white;
+        .form-container {
+            padding: 50px 40px;
+            position: relative;
         }
 
-        .logo { width: 120px; margin-bottom: 15px; }
-        .header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
-        .header p { font-size: 14px; opacity: 0.95; }
-        
-        .form-content { padding: 30px; }
-        .form-group { margin-bottom: 25px; }
-        
+        .form-group {
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         label {
             display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 14px;
+            margin-bottom: 12px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        label .required {
+            color: #EB0A1E;
+            margin-left: 4px;
+        }
+
+        label .readonly-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 15px;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #f8fafc;
+            color: #2d3748;
         }
 
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #EB0A1E;
+            background: white;
+            box-shadow: 0 0 0 5px rgba(235, 10, 30, 0.1),
+                        0 10px 30px rgba(235, 10, 30, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Styling khusus untuk field readonly */
         input[type="text"]:read-only {
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #4a5568;
             cursor: not-allowed;
-            color: #666;
+            border-color: #cbd5e0;
+            font-weight: 600;
         }
 
-        .radio-group { display: flex; flex-direction: column; gap: 12px; }
-        
+        input[type="text"]:read-only:focus {
+            border-color: #cbd5e0;
+            box-shadow: 0 0 0 5px rgba(203, 213, 224, 0.2);
+            transform: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0aec0;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
         .radio-option {
+            position: relative;
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 18px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            overflow: hidden;
+        }
+
+        .radio-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 0;
         }
 
         .radio-option:hover {
             border-color: #EB0A1E;
-            background-color: #fff5f6;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(235, 10, 30, 0.2);
         }
 
         .radio-option input[type="radio"] {
-            margin-right: 12px;
-            width: 20px;
-            height: 20px;
+            margin-right: 14px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
             accent-color: #EB0A1E;
+            z-index: 1;
+            position: relative;
+        }
+
+        .radio-option input[type="radio"]:checked ~ label {
+            color: white;
+            font-weight: 600;
+        }
+
+        .radio-option:has(input[type="radio"]:checked) {
+            border-color: #EB0A1E;
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(235, 10, 30, 0.3);
+        }
+
+        .radio-option:has(input[type="radio"]:checked)::before {
+            opacity: 1;
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+            z-index: 1;
+            position: relative;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .other-input {
+            margin-top: 16px;
+            display: none;
+            animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .other-input.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 100px;
+            }
         }
 
         .submit-btn {
             width: 100%;
-            padding: 15px;
+            padding: 20px;
             background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(235, 10, 30, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
             font-family: 'Poppins', sans-serif;
         }
 
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(235, 10, 30, 0.3);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(235, 10, 30, 0.5);
+        }
+
+        .submit-btn:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .submit-btn:disabled {
-            background: #ccc;
+            background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .loading { display: none; text-align: center; margin-top: 20px; }
-        .loading.active { display: block; }
-        
-        .message {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        
-        .message.active { display: block; }
-        
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
         }
 
-        .section-title {
-            font-size: 18px;
+        .success-message,
+        .error-message {
+            padding: 20px 24px;
+            border-radius: 15px;
+            margin-bottom: 25px;
             font-weight: 600;
-            color: #EB0A1E;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+            display: none;
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { border-radius: 15px; }
-            .header { padding: 20px; }
-            .form-content { padding: 20px; }
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-30px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+        }
+
+        .success-message::before {
+            content: '✓';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(245, 101, 101, 0.3);
+        }
+
+        .error-message::before {
+            content: '✗';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .loader {
+            display: none;
+            width: 26px;
+            height: 26px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #EB0A1E, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(235, 10, 30, 0.5);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+            
+            .header {
+                padding: 30px 25px;
+            }
+
+            .logo {
+                width: 160px;
+            }
+            
+            .form-container {
+                padding: 40px 25px;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-option {
+                padding: 16px 18px;
+            }
+        }
+
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle 3s ease-in infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(0);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="progress-bar" id="progressBar"></div>
+    
     <div class="container">
         <div class="header">
-            <img src="C:\Users\lenovo\Documents\Kuliah\TAGToyotaPalembangForm\splashscreen.png" alt="TAG Toyota" class="logo">
-            <h1>Form Preferensi</h1>
-            <p>Mohon lengkapi data preferensi Anda</p>
+            <div class="logo-container">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4TTA4VHVhZ5NSQjsK8u-3oLOZo5c17Rsb2g&s"
+                     alt="TAG Toyota Logo" 
+                     class="logo"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%2260%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2219%22 font-weight=%22bold%22 fill=%22%23EB0A1E%22%3E TUNAS AUTO GRAHA %3C/text%3E%3C/svg%3E';">
+            </div>
         </div>
 
-        <form id="customerForm" class="form-content">
-            <div class="section-title">📋 Data Pelanggan</div>
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                Data berhasil disimpan! Terima kasih atas partisipasi Anda.
+            </div>
             
-            <div class="form-group">
-                <label for="customerId">ID Customer *</label>
-                <input type="text" id="customerId" name="customerId" readonly required>
+            <div class="error-message" id="errorMessage">
+                Terjadi kesalahan. Silakan coba lagi.
             </div>
 
-            <div class="form-group">
-                <label for="customerName">Nama Customer *</label>
-                <input type="text" id="customerName" name="customerName" readonly required>
-            </div>
+            <form id="customerForm">
+                <div class="form-group">
+                    <label for="customerId">
+                        ID Customer <span class="required">*</span>
+                        <span class="readonly-badge">AUTO-FILLED</span>
+                    </label>
+                    <input type="text" 
+                           id="customerId" 
+                           name="customerId" 
+                           value="<?= customerId ?>"
+                           readonly 
+                           required>
+                </div>
 
-            <div class="section-title">🎯 Hobbi</div>
-            <div class="form-group">
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="hobby1" name="hobby" value="Olahraga" required>
-                        <label for="hobby1">Olahraga</label>
+                <div class="form-group">
+                    <label for="customerName">
+                        Nama Customer <span class="required">*</span>
+                        <span class="readonly-badge">AUTO-FILLED</span>
+                    </label>
+                    <input type="text" 
+                           id="customerName" 
+                           name="customerName" 
+                           value="<?= customerName ?>"
+                           readonly 
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Hobi <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="hobby1" name="hobby" value="Golf" required>
+                            <label for="hobby1">⛳ Golf</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="hobby2" name="hobby" value="Badminton">
+                            <label for="hobby2">🏸 Badminton</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="hobby3" name="hobby" value="Jogging">
+                            <label for="hobby3">🏃 Jogging</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="hobby4" name="hobby" value="Touring">
+                            <label for="hobby4">🏍️ Touring</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="hobby5" name="hobby" value="Gym">
+                            <label for="hobby5">💪 Gym</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="hobbyOther" name="hobby" value="other">
+                            <label for="hobbyOther">✏️ Lainnya</label>
+                        </div>
                     </div>
-                    <div class="radio-option">
-                        <input type="radio" id="hobby2" name="hobby" value="Musik">
-                        <label for="hobby2">Musik</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="hobby3" name="hobby" value="Traveling">
-                        <label for="hobby3">Traveling</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="hobby4" name="hobby" value="Membaca">
-                        <label for="hobby4">Membaca</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="hobby5" name="hobby" value="Gaming">
-                        <label for="hobby5">Gaming</label>
+                    <div class="other-input" id="hobbyOtherInput">
+                        <input type="text" id="hobbyOtherText" placeholder="Sebutkan hobi Anda...">
                     </div>
                 </div>
-            </div>
 
-            <div class="section-title">🍽️ Makanan Favorit</div>
-            <div class="form-group">
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="food1" name="makanan" value="Nasi Goreng" required>
-                        <label for="food1">Nasi Goreng</label>
+                <div class="form-group">
+                    <label>Makanan Favorit <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="food1" name="food" value="Pempek" required>
+                            <label for="food1">🍢 Pempek</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="food2" name="food" value="Sushi">
+                            <label for="food2">🍣 Sushi</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="food3" name="food" value="Steak">
+                            <label for="food3">🥩 Steak</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="food4" name="food" value="Seafood">
+                            <label for="food4">🦞 Seafood</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="foodOther" name="food" value="other">
+                            <label for="foodOther">✏️ Lainnya</label>
+                        </div>
                     </div>
-                    <div class="radio-option">
-                        <input type="radio" id="food2" name="makanan" value="Mie Ayam">
-                        <label for="food2">Mie Ayam</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="food3" name="makanan" value="Sate">
-                        <label for="food3">Sate</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="food4" name="makanan" value="Bakso">
-                        <label for="food4">Bakso</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="food5" name="makanan" value="Rendang">
-                        <label for="food5">Rendang</label>
+                    <div class="other-input" id="foodOtherInput">
+                        <input type="text" id="foodOtherText" placeholder="Sebutkan makanan favorit Anda...">
                     </div>
                 </div>
-            </div>
 
-            <button type="submit" class="submit-btn">Kirim Formulir</button>
-
-            <div class="loading" id="loading">
-                <p>⏳ Mengirim data...</p>
-            </div>
-
-            <div class="message" id="message"></div>
-        </form>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="btnText">Kirim Data</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </form>
+        </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCEz8Sc2Be--zIpTwby1I2YmotPpawyMH4",
-            authDomain: "tagtoyota-aece3.firebaseapp.com",
-            databaseURL: "https://tagtoyota-aece3-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "tagtoyota-aece3",
-            storageBucket: "tagtoyota-aece3.firebasestorage.app",
-            messagingSenderId: "1074131544847",
-            appId: "1:1074131544847:web:5bd448e3522153edce2c7a"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+    <script>
+        // Floating particles effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 4000);
         }
 
-        window.addEventListener('DOMContentLoaded', function() {
-            const customerId = getUrlParameter('customer_id');
-            const customerName = getUrlParameter('customer_name');
+        setInterval(createParticle, 300);
 
-            if (customerId) {
-                document.getElementById('customerId').value = decodeURIComponent(customerId);
-            }
-
-            if (customerName) {
-                document.getElementById('customerName').value = decodeURIComponent(customerName);
-            }
-
-            if (!customerId || !customerName) {
-                const messageDiv = document.getElementById('message');
-                messageDiv.textContent = '⚠️ Link tidak valid. Pastikan Anda membuka link dari aplikasi.';
-                messageDiv.className = 'message error active';
-            }
+        // Progress bar
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
         });
 
-        document.getElementById('customerForm').addEventListener('submit', async function(e) {
+        // Hobby other input
+        document.querySelectorAll('input[name="hobby"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const otherInput = document.getElementById('hobbyOtherInput');
+                if (this.value === 'other') {
+                    otherInput.classList.add('show');
+                    document.getElementById('hobbyOtherText').required = true;
+                } else {
+                    otherInput.classList.remove('show');
+                    document.getElementById('hobbyOtherText').required = false;
+                    document.getElementById('hobbyOtherText').value = '';
+                }
+            });
+        });
+
+        // Food other input
+        document.querySelectorAll('input[name="food"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const otherInput = document.getElementById('foodOtherInput');
+                if (this.value === 'other') {
+                    otherInput.classList.add('show');
+                    document.getElementById('foodOtherText').required = true;
+                } else {
+                    otherInput.classList.remove('show');
+                    document.getElementById('foodOtherText').required = false;
+                    document.getElementById('foodOtherText').value = '';
+                }
+            });
+        });
+
+        // Form submit
+        document.getElementById('customerForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const submitBtn = this.querySelector('.submit-btn');
-            const loading = document.getElementById('loading');
-            const messageDiv = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const loader = document.getElementById('loader');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
 
-            const formData = {
-                customer_id: document.getElementById('customerId').value,
-                customer_name: document.getElementById('customerName').value,
-                hobbi: document.querySelector('input[name="hobby"]:checked')?.value,
-                makanan_favorit: document.querySelector('input[name="makanan"]:checked')?.value,
-                submitted_at: new Date().toISOString()
-            };
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
 
-            if (!formData.hobbi || !formData.makanan_favorit) {
-                messageDiv.textContent = '⚠️ Mohon lengkapi semua field!';
-                messageDiv.className = 'message error active';
-                setTimeout(() => messageDiv.classList.remove('active'), 3000);
+            const customerId = document.getElementById('customerId').value.trim();
+            const customerName = document.getElementById('customerName').value.trim();
+            
+            let hobby = document.querySelector('input[name="hobby"]:checked').value;
+            if (hobby === 'other') {
+                hobby = document.getElementById('hobbyOtherText').value.trim();
+            }
+
+            let food = document.querySelector('input[name="food"]:checked').value;
+            if (food === 'other') {
+                food = document.getElementById('foodOtherText').value.trim();
+            }
+
+            if (!customerId || !customerName || !hobby || !food) {
+                errorMsg.textContent = 'Mohon lengkapi semua field yang wajib diisi.';
+                errorMsg.style.display = 'block';
                 return;
             }
 
             submitBtn.disabled = true;
-            loading.classList.add('active');
-            messageDiv.classList.remove('active');
+            btnText.style.display = 'none';
+            loader.style.display = 'block';
 
-            try {
-                await addDoc(collection(db, 'customer_preferences'), formData);
-                
-                loading.classList.remove('active');
-                messageDiv.textContent = '✅ Data berhasil disimpan! Terima kasih.';
-                messageDiv.className = 'message success active';
-                
-                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-                
-                setTimeout(() => {
-                    messageDiv.classList.remove('active');
-                    submitBtn.disabled = false;
-                }, 3000);
-                
-            } catch (error) {
-                loading.classList.remove('active');
-                messageDiv.textContent = '❌ Gagal menyimpan: ' + error.message;
-                messageDiv.className = 'message error active';
+            // Simulate submission (replace with actual Google Apps Script)
+            setTimeout(() => {
                 submitBtn.disabled = false;
-            }
+                btnText.style.display = 'inline';
+                loader.style.display = 'none';
+                successMsg.style.display = 'block';
+                
+                // Reset hanya field yang bisa diedit (hobby & food)
+                document.querySelectorAll('input[name="hobby"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="food"]').forEach(r => r.checked = false);
+                document.getElementById('hobbyOtherInput').classList.remove('show');
+                document.getElementById('foodOtherInput').classList.remove('show');
+                document.getElementById('hobbyOtherText').value = '';
+                document.getElementById('foodOtherText').value = '';
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 2000);
         });
     </script>
 </body>
