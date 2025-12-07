@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAG Toyota - Form Preferensi</title>
+    <link rel="icon" href="https://www.toyota.astra.co.id/themes/custom/toyota/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo { width: 120px; margin-bottom: 15px; }
+        .header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .header p { font-size: 14px; opacity: 0.95; }
+        
+        .form-content { padding: 30px; }
+        .form-group { margin-bottom: 25px; }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:read-only {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            color: #666;
+        }
+
+        .radio-group { display: flex; flex-direction: column; gap: 12px; }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            border-color: #EB0A1E;
+            background-color: #fff5f6;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #EB0A1E;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(235, 10, 30, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading { display: none; text-align: center; margin-top: 20px; }
+        .loading.active { display: block; }
+        
+        .message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .message.active { display: block; }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #EB0A1E;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { border-radius: 15px; }
+            .header { padding: 20px; }
+            .form-content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://www.toyota.astra.co.id/sites/default/files/2023-03/logo-tag.png" alt="TAG Toyota" class="logo">
+            <h1>Form Preferensi Pelanggan</h1>
+            <p>Mohon lengkapi data preferensi Anda</p>
+        </div>
+
+        <form id="customerForm" class="form-content">
+            <div class="section-title">📋 Data Pelanggan</div>
+            
+            <div class="form-group">
+                <label for="customerId">ID Customer *</label>
+                <input type="text" id="customerId" name="customerId" readonly required>
+            </div>
+
+            <div class="form-group">
+                <label for="customerName">Nama Customer *</label>
+                <input type="text" id="customerName" name="customerName" readonly required>
+            </div>
+
+            <div class="section-title">🎯 Hobbi</div>
+            <div class="form-group">
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="hobby1" name="hobby" value="Olahraga" required>
+                        <label for="hobby1">Olahraga</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="hobby2" name="hobby" value="Musik">
+                        <label for="hobby2">Musik</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="hobby3" name="hobby" value="Traveling">
+                        <label for="hobby3">Traveling</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="hobby4" name="hobby" value="Membaca">
+                        <label for="hobby4">Membaca</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="hobby5" name="hobby" value="Gaming">
+                        <label for="hobby5">Gaming</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🍽️ Makanan Favorit</div>
+            <div class="form-group">
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="food1" name="makanan" value="Nasi Goreng" required>
+                        <label for="food1">Nasi Goreng</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="food2" name="makanan" value="Mie Ayam">
+                        <label for="food2">Mie Ayam</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="food3" name="makanan" value="Sate">
+                        <label for="food3">Sate</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="food4" name="makanan" value="Bakso">
+                        <label for="food4">Bakso</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="food5" name="makanan" value="Rendang">
+                        <label for="food5">Rendang</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Kirim Formulir</button>
+
+            <div class="loading" id="loading">
+                <p>⏳ Mengirim data...</p>
+            </div>
+
+            <div class="message" id="message"></div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEz8Sc2Be--zIpTwby1I2YmotPpawyMH4",
+            authDomain: "tagtoyota-aece3.firebaseapp.com",
+            databaseURL: "https://tagtoyota-aece3-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "tagtoyota-aece3",
+            storageBucket: "tagtoyota-aece3.firebasestorage.app",
+            messagingSenderId: "1074131544847",
+            appId: "1:1074131544847:web:5bd448e3522153edce2c7a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const customerId = getUrlParameter('customer_id');
+            const customerName = getUrlParameter('customer_name');
+
+            if (customerId) {
+                document.getElementById('customerId').value = decodeURIComponent(customerId);
+            }
+
+            if (customerName) {
+                document.getElementById('customerName').value = decodeURIComponent(customerName);
+            }
+
+            if (!customerId || !customerName) {
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = '⚠️ Link tidak valid. Pastikan Anda membuka link dari aplikasi.';
+                messageDiv.className = 'message error active';
+            }
+        });
+
+        document.getElementById('customerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('.submit-btn');
+            const loading = document.getElementById('loading');
+            const messageDiv = document.getElementById('message');
+
+            const formData = {
+                customer_id: document.getElementById('customerId').value,
+                customer_name: document.getElementById('customerName').value,
+                hobbi: document.querySelector('input[name="hobby"]:checked')?.value,
+                makanan_favorit: document.querySelector('input[name="makanan"]:checked')?.value,
+                submitted_at: new Date().toISOString()
+            };
+
+            if (!formData.hobbi || !formData.makanan_favorit) {
+                messageDiv.textContent = '⚠️ Mohon lengkapi semua field!';
+                messageDiv.className = 'message error active';
+                setTimeout(() => messageDiv.classList.remove('active'), 3000);
+                return;
+            }
+
+            submitBtn.disabled = true;
+            loading.classList.add('active');
+            messageDiv.classList.remove('active');
+
+            try {
+                await addDoc(collection(db, 'customer_preferences'), formData);
+                
+                loading.classList.remove('active');
+                messageDiv.textContent = '✅ Data berhasil disimpan! Terima kasih.';
+                messageDiv.className = 'message success active';
+                
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                
+                setTimeout(() => {
+                    messageDiv.classList.remove('active');
+                    submitBtn.disabled = false;
+                }, 3000);
+                
+            } catch (error) {
+                loading.classList.remove('active');
+                messageDiv.textContent = '❌ Gagal menyimpan: ' + error.message;
+                messageDiv.className = 'message error active';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
