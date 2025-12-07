@@ -445,6 +445,107 @@
             box-shadow: 0 0 10px rgba(235, 10, 30, 0.5);
         }
 
+        /* Success Screen Styles */
+        .success-screen {
+            display: none;
+            padding: 60px 40px;
+            text-align: center;
+            animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .success-screen.show {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(72, 187, 120, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 20px 60px rgba(72, 187, 120, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 25px 70px rgba(72, 187, 120, 0.6);
+            }
+        }
+
+        .success-icon svg {
+            width: 60px;
+            height: 60px;
+            stroke: white;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            animation: checkmark 0.8s ease-in-out 0.3s forwards;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        @keyframes checkmark {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #EB0A1E 0%, #C50014 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-text {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .success-company {
+            font-size: 24px;
+            font-weight: 700;
+            color: #EB0A1E;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .success-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #EB0A1E, #667eea);
+            margin: 25px auto;
+            border-radius: 2px;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 0;
@@ -473,6 +574,32 @@
 
             .radio-option {
                 padding: 16px 18px;
+            }
+
+            .success-screen {
+                padding: 40px 25px;
+            }
+
+            .success-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .success-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .success-title {
+                font-size: 26px;
+            }
+
+            .success-text {
+                font-size: 16px;
+            }
+
+            .success-company {
+                font-size: 20px;
             }
         }
 
@@ -510,7 +637,7 @@
             </div>
         </div>
 
-        <div class="form-container">
+        <div class="form-container" id="formContainer">
             <div class="success-message" id="successMessage">
                 Data berhasil diperbarui! Terima kasih atas partisipasi Anda.
             </div>
@@ -607,10 +734,24 @@
                 </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    <span id="btnText">Perbarui Data</span>
+                    <span id="btnText">Kirim Data</span>
                     <div class="loader" id="loader"></div>
                 </button>
             </form>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-icon">
+                <svg viewBox="0 0 52 52">
+                    <polyline points="14,27 22,35 38,19"/>
+                </svg>
+            </div>
+            <h1 class="success-title">Data Berhasil Diperbarui!</h1>
+            <div class="success-divider"></div>
+            <p class="success-text">Terima kasih telah meluangkan waktu untuk mengisi formulir preferensi Anda.</p>
+            <p class="success-text">Data Anda telah tersimpan dengan aman.</p>
+            <p class="success-company">Tunas Auto Graha Palembang</p>
         </div>
     </div>
 
@@ -777,21 +918,12 @@
 
                 console.log('✅ Data berhasil diupdate untuk document ID:', customerId);
 
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                loader.style.display = 'none';
-                successMsg.textContent = '✅ Data berhasil diperbarui! Terima kasih.';
-                successMsg.style.display = 'block';
-                
-                // Reset form
-                document.querySelectorAll('input[name="hobby"]').forEach(r => r.checked = false);
-                document.querySelectorAll('input[name="food"]').forEach(r => r.checked = false);
-                document.getElementById('hobbyOtherInput').classList.remove('show');
-                document.getElementById('foodOtherInput').classList.remove('show');
-                document.getElementById('hobbyOtherText').value = '';
-                document.getElementById('foodOtherText').value = '';
-
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Hide form and show success screen
+                setTimeout(() => {
+                    document.getElementById('formContainer').style.display = 'none';
+                    document.getElementById('successScreen').classList.add('show');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 500);
 
             } catch (error) {
                 console.error('❌ Error:', error);
